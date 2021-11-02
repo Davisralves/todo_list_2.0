@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function TodoList({list, onDragStart, onDragEnd, onDrop}) {
-  console.log(list);
   return(
     list.map((item, index) => (
       <div

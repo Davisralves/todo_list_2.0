@@ -23,11 +23,8 @@ function App() {
   }
   const onDragEnd = (e) => {
     e.preventDefault();
-    // console.log(dragElement.dataset.id)
-    // console.log(dropElement.dataset.id);
     const {dataset: {id: dragElementId} } = dragElement
     const {dataset: {id: dropElementId} } = dropElement
-    console.log(dragElement, dropElement)
     if(dragElement && dropElement) {
       setList(() => {
         list.splice(parseInt(dragElementId), 1 , dropElement.outerText );
