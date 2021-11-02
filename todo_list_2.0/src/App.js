@@ -23,12 +23,12 @@ function App() {
   }
   const onDragEnd = (e) => {
     e.preventDefault();
+    if(dragElement && dropElement) {
     const {dataset: {id: dragElementId} } = dragElement
     const {dataset: {id: dropElementId} } = dropElement
-    if(dragElement && dropElement) {
       setList(() => {
-        list.splice(parseInt(dragElementId), 1 , dropElement.outerText );
-        list.splice(parseInt(dropElementId), 1 , dragElement.outerText );
+        list.splice(parseInt(dragElementId), 1 , dropElement.textContent );
+        list.splice(parseInt(dropElementId), 1 , dragElement.textContent );
         return list;
       })
       setDragElement(null);
