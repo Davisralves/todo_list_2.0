@@ -6,8 +6,10 @@ import Input from './components/Input';
 function App() {
   const [inputValue, setInput ] = useState('');
   const [list, setList] = useState([]);
-  
-  const handleChange = ({ target: { value } }) => {
+  const [dragElement, setDragElement] = useState();
+  const [dropElement, setDropElement] = useState();
+
+  const handleInput = ({ target: { value } }) => {
     setInput(value);
   }
   
@@ -15,14 +17,39 @@ function App() {
     setList(list.concat(inputValue));
     setInput('');
   }
+  
+  const onDragStart = (e) => {
+    setDragElement(e.target);
+  }
+  const onDragEnd = (e) => {
+    e.preventDefault();
+    // console.log(dragElement.dataset.id)
+    // console.log(dropElement.dataset.id);
+    const {dataset: {id: dragElementId} } = dragElement
+    const {dataset: {id: dropElementId} } = dropElement
+    console.log(dragElement, dropElement)
+    if(dragElement && dropElement) {
+      setList(() => {
+        list.splice(parseInt(dragElementId), 1 , dropElement.outerText );
+        list.splice(parseInt(dropElementId), 1 , dragElement.outerText );
+        return list;
+      })
+      setDragElement(null);
+      setDropElement(null);
+    }
+  } 
+  
+  const onDrop = (e) => {
+    setDropElement(e.target);
+  } 
 
   return (
-    <div className="App">
+    <main className="App">
       <header>Lista de afazeres</header>
-      <Input type="text" handleChange={ handleChange } value={ inputValue } />
+      <Input type="text" handleInput={ handleInput } value={ inputValue } />
       <button onClick={ handleButton }>Adicionar</button>
-      <TodoList list={ list } />
-    </div>
+      <TodoList list={ list } onDragStart={onDragStart} onDragEnd={onDragEnd} onDrop={onDrop} />
+    </main>
   );
 }
 
