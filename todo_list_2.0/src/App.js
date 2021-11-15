@@ -8,6 +8,7 @@ function App() {
   const [list, setList] = useState([]);
   const [dragElement, setDragElement] = useState();
   const [dropElement, setDropElement] = useState();
+  const [selectedElement, setSelectedElement] = useState();
 
   const handleInput = ({ target: { value } }) => {
     setInput(value);
@@ -40,12 +41,27 @@ function App() {
     setDropElement(e.target);
   } 
 
+  const removeSelectedElement = () => {
+    if(selectedElement) {
+      const {dataset: {id} } = selectedElement;
+      list.splice(id, 1);
+      setSelectedElement(null);
+    }
+  }
+
   return (
     <main className="App">
       <header>Lista de afazeres</header>
       <Input type="text" handleInput={ handleInput } value={ inputValue } />
       <button onClick={ handleButton }>Adicionar</button>
-      <TodoList list={ list } onDragStart={onDragStart} onDragEnd={onDragEnd} onDrop={onDrop} />
+      <button onClick={ removeSelectedElement }>Remover</button>
+      <TodoList 
+        list={ list } 
+        onDragStart={onDragStart} 
+        onDragEnd={onDragEnd} 
+        onDrop={onDrop} 
+        setSelectedElement={setSelectedElement} 
+      />
     </main>
   );
 }
